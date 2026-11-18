@@ -26,6 +26,7 @@ This repo is where I design the platform and scope work. The components are buil
 - **Cloud platform on AKS** — [cluster deployed](./infrastructure/), Argo Workflows installed, agent secrets from Key Vault through workload identity
 - **Platform services** — [deployed in the cluster](./platform-services/): create a run, HMAC step tokens, artifact API with SAS URLs, Entra authentication to PostgreSQL
 - **Workflow** — [`foreman → planner → coder`](./workflows/) runs end to end with `argo submit`: issue in, signed PR out
+- **GitHub token broker** — [deployed and verified in the cluster](./github-broker/): agent pods get just-in-time GitHub tokens scoped to their role and one repository. Not yet used by the workflow, which still uses a temporary token.
 
 ### Initial release — done
 
@@ -38,11 +39,21 @@ One issue end to end in the cluster: start a run with the Argo CLI, a planner wr
 - [x] Platform services — HMAC caller authentication, create the run, deploy to the cluster
 - [x] Workflow — `foreman → planner → coder`, started with `argo submit`
 
-**Next:** better issue scoping and agent output quality, saving agent session transcripts ([#30](https://github.com/julie-ng/ai-native-sdlc/issues/30)).
+**Next:** switch the workflow to the token broker and retire the temporary token, so every component runs with just-in-time credentials. Then better issue scoping and agent output quality, and saving agent session transcripts ([#30](https://github.com/julie-ng/ai-native-sdlc/issues/30)).
 
-**Later:** token broker and GitHub App (a temporary token for now), reviewer step, webhook trigger, role images with skills baked in.
+**Later:** reviewer step, webhook trigger, role images with skills baked in.
 
 ## What's New?
+
+### 2026-11-18
+
+**Validated**
+
+- **GitHub token broker works in the cluster.** A pod presents its own Kubernetes token and gets a GitHub token that lasts an hour, limited to its role and one repository. The planner's push was denied, the coder's succeeded, and every wrong caller was refused: missing assignment, wrong role, wrong token audience, or a request trying to choose its own repository. No token reached the logs. See the [token broker reference](./architecture/reference/token-broker.md).
+
+**Learned**
+
+- **A GitHub App has two IDs that are easy to mix up.** The App ID comes from the App's own settings page; the installation ID belongs to the App's installation on a repository. With the wrong one, GitHub answers "Integration not found", and because the broker deliberately hides upstream errors, finding it took a direct call to GitHub.
 
 ### 2026-11-11
 
