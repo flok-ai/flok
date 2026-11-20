@@ -23,9 +23,16 @@
 - Never delete branches outside `agent/`. Ask before deleting any `agent/` branch, locally or remotely; permission to rewrite history is not permission to delete branches.
 - Never commit secrets, tokens, or keys. Provider keys arrive at runtime.
 
+### Project board
+
+Agents keep the [project board](https://github.com/orgs/flok-ai/projects/1/views/1) up to date; it does not add or move items automatically, except closed issues and merged PRs, which move to Done.
+
+- When creating an issue, add it to the board (`gh project item-add 1 --owner flok-ai --url <issue-url>`) and set its Status: Ready when it can start, Backlog when it is blocked or waiting.
+- When starting work on an issue, move it to In Progress.
+- When opening the PR for an issue, move the issue to In Review.
+
 ### Branch and delivery guidance
 
-- When working on a specific GitHub issue, make sure to move the issue into the ["In Progress"](https://github.com/orgs/flok-ai/projects/1/views/1) column of the project board.
 - The default branch is `main` in the parent repo and all component repos. Fetch `origin/main` before creating a task branch or worktree. Create independent task branches prefixed with `agent/` from that fetched branch, not the current checkout or another task branch.
 - Target PRs at `main`. Only stack branches or PRs when explicitly requested; state the dependency before creating them.
 - Before review-ready pushes and PR handoffs, fetch `origin/main`. If it has new commits, rebase the task branch onto `origin/main`; do not merge `main` into the task branch.
