@@ -1,0 +1,16 @@
+flok
+https://github.com/flok-ai/flok
+Copyright (C) 2026 Julie Ng
+
+Documentation, architecture decision records and diagrams in this repository
+are licensed under the Creative Commons Attribution-ShareAlike 4.0
+International License (CC BY-SA 4.0). See LICENSE.
+
+Attribution for reuse: "flok by Julie Ng (https://github.com/flok-ai/flok),
+CC BY-SA 4.0", with an indication of any changes.
+
+Scripts in this repository are licensed under the GNU Affero General Public
+License v3.0 only (AGPL-3.0-only), as declared in REUSE.toml. The flok
+components live in their own repositories under AGPL-3.0-only.
+
+Versions up to and including v0.1.0 were published without a license.

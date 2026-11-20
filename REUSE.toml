@@ -1,0 +1,13 @@
+version = 1
+
+# Docs, ADRs and diagrams
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = "2026 Julie Ng"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+# Scripts are code
+[[annotations]]
+path = ".agents/skills/**/scripts/**"
+SPDX-FileCopyrightText = "2026 Julie Ng"
+SPDX-License-Identifier = "AGPL-3.0-only"

@@ -6,6 +6,8 @@ Design and context layer for an AI-native SDLC platform: **unsupervised coding a
 
 **Pair & delegate.** Architecture and scoping stay interactive — me and a coding agent, on my laptop. Implementation runs headless in the cloud, one pod per agent step. GitHub issues are the handoff.
 
+**100% open source.** Most open source agent tools run on a developer's laptop as wrappers around Codex or Claude Code, and the scalable ones keep key parts closed. [flok](https://github.com/flok-ai) is cloud-native and fully open: every component, from the infrastructure to the token broker, is in the open.
+
 ## What's here
 
 This repo is where I design the platform and scope work. The components are built in their own repositories, where agents pick up the scoped tickets — without context from here, so a badly scoped ticket shows up as a failure.
@@ -173,3 +175,7 @@ Inspired by
 - [Why Software Factories Fail – Dex Horthy, Human Layer](https://www.youtube.com/watch?v=Ib5GBkD555M)  AI Engineer, YouTube, 23 July 2026
 - [The State of AI in Software Development: Data from 400+ Orgs — Justin Reock, DX](https://www.youtube.com/watch?v=Se8jHLliLXE) – AI Engineer, YouTube, 30 Sept. 2026.
 - [12 Factor Agents - Principles for building reliable LLM applications](https://github.com/humanlayer/12-factor-agents) Human Layer, 2025.
+
+## License
+
+Docs, architecture decision records and diagrams in this repository are licensed under [CC BY-SA 4.0](./LICENSE); scripts under AGPL-3.0-only (see [REUSE.toml](./REUSE.toml)). The flok components are AGPL-3.0-only in their own repositories. Reuse requires attribution as described in [NOTICE](./NOTICE); GitHub's "Cite this repository" uses [CITATION.cff](./CITATION.cff).
