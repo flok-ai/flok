@@ -28,16 +28,10 @@ This repo is where I design the platform and scope work. The components are buil
 - **Workflow** — [`foreman → planner → coder`](./workflows/) runs end to end with `argo submit` (or `make submit`): issue in, signed PR out
 - **GitHub token broker** — [in use by the workflow](./github-broker/): each agent pod gets a just-in-time GitHub token scoped to its role and one repository. PRs are opened by the GitHub App; commits stay signed by the agent. No shared GitHub token is in use.
 
-### Initial release — done
+### Milestones
 
-One issue end to end in the cluster: start a run with the Argo CLI, a planner writes a plan, a coder implements it and opens a PR, I review and merge. First agent PR merged on 2026-11-11.
-
-- [x] AKS cluster — deployed on Azure
-- [x] Argo Workflows — installed with Helm
-- [x] Agent images — shared [`agent-base`](./agent-images/) built
-- [x] Agent image published to the registry, goose running in an Argo pod
-- [x] Platform services — HMAC caller authentication, create the run, deploy to the cluster
-- [x] Workflow — `foreman → planner → coder`, started with `argo submit`
+- [x] **Initial release** (2026-11-11) — one issue end to end in the cluster: a planner writes a plan, a coder implements it and opens a signed PR, I review and merge.
+- [x] **Just-in-time credentials** (2026-11-20) — every component runs on short-lived, scoped credentials; the shared GitHub token is retired.
 
 **Next:** better issue scoping and agent output quality, and saving agent session transcripts ([#30](https://github.com/julie-ng/ai-native-sdlc/issues/30)).
 
