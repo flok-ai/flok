@@ -108,5 +108,5 @@ Built for the initial release (2026-11-11). See the [credential flow](../referen
 
 ## Open
 
-- **HMAC token delivery** into the agent pod: a trusted `foreman` step creates the run and writes one Kubernetes Secret per step, owned by the Workflow ([infrastructure#19](https://github.com/julie-ng/ai-native-sdlc-infrastructure/issues/19)). Argo parameters carry no tokens. Designed, not built.
+- **HMAC token delivery** into the agent pod: a trusted `foreman` step creates the run and writes one Kubernetes Secret per step, owned by the Workflow ([infrastructure#19](https://github.com/flok-ai/infrastructure/issues/19)). Argo parameters carry no tokens. Designed, not built.
 - **Unverified:** default ServiceAccount token lifetime on AKS may be extended for compatibility. Not relied on — automount off, dedicated projected token.

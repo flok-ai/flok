@@ -94,7 +94,7 @@ The first build is an MVP, not the target design. It proves one thing: pods get 
 
 - **Commits** stay signed by `@julieio-goose` with its GPG key; the broker token only authenticates the push ([ADR-012](../decisions/012-agent-identity-commits-vs-github-tokens.md)). Whether commits pushed with an App token still show **Verified** is checked early.
 - **Left out on purpose:** retries and circuit breaking, rate limiting, token caching, metrics, replicas and availability, and key rotation beyond restarting the broker. See [open questions](#open-questions).
-- **Implementation issues:** [#6 endpoint and policy](https://github.com/julie-ng/ai-native-sdlc-github-broker/issues/6), [#7 GitHub issuer](https://github.com/julie-ng/ai-native-sdlc-github-broker/issues/7), [#8 Kubernetes adapters](https://github.com/julie-ng/ai-native-sdlc-github-broker/issues/8).
+- **Implementation issues:** [#6 endpoint and policy](https://github.com/flok-ai/github-broker/issues/6), [#7 GitHub issuer](https://github.com/flok-ai/github-broker/issues/7), [#8 Kubernetes adapters](https://github.com/flok-ai/github-broker/issues/8).
 
 ## Implementation notes
 

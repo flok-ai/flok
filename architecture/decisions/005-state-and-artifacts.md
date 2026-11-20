@@ -34,7 +34,7 @@ As above, on AKS with Azure Blob Storage and PostgreSQL.
 
 ### MVP / POC scope
 
-Partly built (2026-11-10), as one app: [platform services](https://github.com/julie-ng/ai-native-sdlc-platform-services).
+Partly built (2026-11-10), as one app: [platform services](https://github.com/flok-ai/platform-services).
 
 - **Artifact service:** runs, steps and artifact metadata in PostgreSQL; bytes in Blob Storage through per-blob user delegation SAS ([ADR-015](./015-sas-signing-and-local-identity.md)). Planner writes `plan`, coder reads it.
 - **Workflow service:** only run creation (`POST /api/runs`). Status reporting, retries, cost and the webhook are not built.

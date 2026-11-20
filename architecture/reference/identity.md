@@ -22,7 +22,7 @@ The agent runs in two places. On my laptop, in a [dev container](./dev-container
 | Access | classic PAT, HTTPS for `git` and `gh` | target: GitHub App installation token from the [token broker](./token-broker.md), ≤ 1 hour, per pod. Initial release: temporary PAT from Key Vault |
 | Scope | collaborator role + repo rulesets | target: downscoped per request to the pod's role and one repo. Initial release: collaborator role + repo rulesets |
 | LLM | my subscription ([ADR-006](../decisions/006-models-and-llm-access.md)) | API keys via an AI gateway |
-| Built | **yes** — signed commits show Verified, e.g. [PR #8](https://github.com/julie-ng/autonomous-agents-setup/pull/8) | **partly** — signed commits from the coder pod show Verified (2026-11-11); broker not built. See [credential flow](./credential-flow.md) |
+| Built | **yes** — signed commits show Verified, e.g. [PR #8](https://github.com/flok-ai/flok/pull/8) | **partly** — signed commits from the coder pod show Verified (2026-11-11); broker not built. See [credential flow](./credential-flow.md) |
 
 In the dev container the token is coarse on purpose. A classic PAT carries account-wide scopes and is not repo-scoped; the real boundary is the repository — collaborator role, rulesets and environment-only secrets, described in [GitHub configuration](./github-configuration.md). In the cloud, the broker narrows every token to exactly the pod's role and repository, and the App private key never leaves the broker.
 

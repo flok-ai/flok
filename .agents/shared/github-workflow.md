@@ -1,7 +1,7 @@
 ## Git & GitHub Workflow
 
 > [!NOTE]
-> Maintained in the parent ai-native-sdlc repository. Edit the source there, not this distributed copy.
+> Maintained in the parent flok repository. Edit the source there, not this distributed copy.
 
 ### Agent identity and credentials
 
@@ -25,7 +25,7 @@
 
 ### Branch and delivery guidance
 
-- When working on a specific GitHub issue, make sure to move the issue into the ["In Progress"](https://github.com/users/julie-ng/projects/14/views/2) column of the project board.
+- When working on a specific GitHub issue, make sure to move the issue into the ["In Progress"](https://github.com/orgs/flok-ai/projects/1/views/1) column of the project board.
 - The default branch is `main` in the parent repo and all component repos. Fetch `origin/main` before creating a task branch or worktree. Create independent task branches prefixed with `agent/` from that fetched branch, not the current checkout or another task branch.
 - Target PRs at `main`. Only stack branches or PRs when explicitly requested; state the dependency before creating them.
 - Before review-ready pushes and PR handoffs, fetch `origin/main`. If it has new commits, rebase the task branch onto `origin/main`; do not merge `main` into the task branch.
