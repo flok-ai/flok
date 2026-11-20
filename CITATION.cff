@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use or build on this work, please cite it as below."
+title: flok
+abstract: >-
+  Unsupervised coding agents in the cloud: a scoped GitHub issue in, a reviewed
+  pull request out, with real isolation boundaries, agent identities and
+  just-in-time credentials. 100% open source.
+type: software
+authors:
+  - given-names: Julie
+    family-names: Ng
+repository-code: "https://github.com/flok-ai/flok"
+url: "https://github.com/flok-ai"
+license: CC-BY-SA-4.0
+keywords:
+  - ai-agents
+  - coding-agents
+  - sdlc
+  - kubernetes
+  - argo-workflows
+  - azure
