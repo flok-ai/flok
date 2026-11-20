@@ -30,7 +30,7 @@ As above, on AKS.
 
 ### MVP / POC scope
 
-Built for the initial release (2026-11-11): Argo Workflows 4.1.6 on AKS, one pod per step. The human starts a run with `argo submit`; the [`initial-release` template](../../workflows/) runs `foreman → planner → coder`, and the coder opens a signed PR.
+Built for the initial release (2026-11-11): Argo Workflows 4.1.6 on AKS, one pod per step. The human starts a run with `argo submit`; the [`initial-release` template](https://github.com/julie-ng/ai-native-sdlc-workflows) runs `foreman → planner → coder`, and the coder opens a signed PR.
 
 - **Not built:** the review loop and iteration cap, and the webhook trigger through the workflow service.
 

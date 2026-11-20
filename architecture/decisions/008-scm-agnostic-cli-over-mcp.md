@@ -45,7 +45,7 @@ The expected benefit of a second interface is limited for these familiar develop
 - Neither evaluation establishes GitLab CLI performance. Task shape, model, tool exposure, response size and guidance can change the result; short instructions and filtered output still matter.
 - The [clifor.ai comparison](https://www.clifor.ai/compare/cli-vs-mcp) reproduces ScaleKit's figures. It is a secondary summary, not an independent benchmark; the original report supports the numbers above.
 
-Sources: Arize and ScaleKit are primary evaluation reports; clifor.ai is linked as the requested secondary comparison. The image-level CLI choice is also recorded in [agent-images ADR-002](../../agent-images/architecture/decisions/002-github-cli.md).
+Sources: Arize and ScaleKit are primary evaluation reports; clifor.ai is linked as the requested secondary comparison. The image-level CLI choice is also recorded in [agent-images ADR-002](https://github.com/julie-ng/ai-native-sdlc-agent-images/blob/main/architecture/decisions/002-github-cli.md).
 
 ## Alternatives considered
 

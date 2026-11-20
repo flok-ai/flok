@@ -28,7 +28,7 @@ As in [ADR-003](./003-platform-services-vs-agent-pods.md):
 - The token binds the workflow run UUID, a timestamp, the resource type and ID, and the scoped permissions.
 - The request carries the token plus the run UUID and task ID.
 - The service looks up the run, checks expiry against run creation, checks the allowed task IDs and recomputes the token from stored values.
-- The HMAC key stays server-side, in Key Vault ([infrastructure decision log](../../infrastructure/docs/decisions.md)). It never enters an agent credential.
+- The HMAC key stays server-side, in Key Vault ([infrastructure decision log](https://github.com/julie-ng/ai-native-sdlc-infrastructure/blob/main/docs/decisions-log.md)). It never enters an agent credential.
 
 ### MVP / POC scope
 

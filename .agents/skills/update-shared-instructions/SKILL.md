@@ -1,6 +1,6 @@
 ---
 name: update-shared-instructions
-description: Sync parent-owned agent instructions to selected submodules, migrate duplicated guidance when needed, resolve routine differences, and deliver concise review PRs.
+description: Sync parent-owned agent instructions to selected component repositories, migrate duplicated guidance when needed, resolve routine differences, and deliver concise review PRs.
 ---
 
 # Update shared instructions
@@ -11,9 +11,9 @@ Distribute `.agents/shared/*.md` from this parent repo; retain each target’s p
 
 - Read applicable instructions once. In a dev container, use `devcontainer-agent-setup` for authenticated Git/GitHub work and configure signed agent commits in each task worktree; never substitute a human identity.
 - Fetch the parent's `origin/main` and use an isolated source worktree at that commit. Use another source ref only when the user requests it, including an explicit pre-merge test. Record the source commit and use that fixed snapshot for every target.
-- Discover targets from that source’s `.gitmodules`; use the selected subset or all submodules if none is specified. Clarify genuinely ambiguous target selection; do not ask again about a set already established in the session.
+- Discover target repositories from the Components table in that source’s `README.md`; use the selected subset or all components if none is specified. Clarify genuinely ambiguous target selection; do not ask again about a set already established in the session.
 - Check for overlapping work once. Create each new `agent/` task branch in an isolated worktree from freshly fetched target `origin/main`, before inspecting target content. Reuse an owned, open sync branch when continuing the same task; never reuse a merged branch. Fetch and rebase a continuing branch if main advanced.
-- For uninitialized submodules, use an isolated clone. Verify `git rev-parse --show-toplevel` is the intended worktree; fix inherited `core.worktree` only in that new worktree if necessary. Leave existing checkouts and parent gitlink pointers untouched.
+- Use an isolated clone of each target repository. Verify `git rev-parse --show-toplevel` is the intended worktree. Leave existing checkouts untouched.
 - Batch independent reads across targets. Do not repeatedly rediscover source files, reread unchanged instructions, or rerun setup during a combined sync.
 
 ## Choose the amount of review
@@ -44,7 +44,7 @@ Resolve `scripts/sync.mjs` relative to this skill’s directory. The helper copi
 ## Verify once and deliver
 
 - After the final edits, run the helper with `--check`, validate affected local links, inspect the diff for lost project rules, and run `git diff --check` plus required documentation checks. The helper verifies exact source copies and the canonical index. Repeat affected checks only after relevant edits, a failure, or a rebase changes the result.
-- Commit coherent changes with the agent identity and GPG signing. Refetch target `origin/main` before publication; rebase and sign replacements only if needed. Push only the task branch and create or update one PR targeting `main`; never merge, change protections, delete branches, or commit parent gitlink updates.
+- Commit coherent changes with the agent identity and GPG signing. Refetch target `origin/main` before publication; rebase and sign replacements only if needed. Push only the task branch and create or update one PR targeting `main`; never merge, change protections or delete branches.
 - Use the repo PR template with short entries: what changed, checks performed, and decisions still needed. One sentence per conflict; do not narrate the reconciliation process or repeat every preserved rule. Use a draft only when an unresolved consequential decision blocks readiness, not for routine cleanup or a documented unavailable check.
 - Invoking this workflow authorizes its task-branch pushes and PR creation. Continue unaffected targets if one is blocked; report the actual failure without fixing unrelated code.
-- Verify PR URLs, bases and file scope once. Finish with one compact table of all selected targets, PR/up-to-date/blocked status, and unresolved decisions. Report existing checkouts and gitlink pointers as unchanged by the run.
+- Verify PR URLs, bases and file scope once. Finish with one compact table of all selected targets, PR/up-to-date/blocked status, and unresolved decisions. Report existing checkouts as unchanged by the run.

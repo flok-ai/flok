@@ -15,6 +15,18 @@ This repo is where I design the platform and scope work. The components are buil
 - [Architecture](./architecture/) — how the platform works: use case, architecture, requirements, workflow
 - [Decisions](./architecture/decisions/) — ADRs, one decision per file, target design vs. what the POC builds
 
+### Components
+
+Each component is built, versioned and deployed on its own.
+
+| Repository | What it does |
+|---|---|
+| [agent-images](https://github.com/julie-ng/ai-native-sdlc-agent-images) | `agent-base` image: goose, runtime entrypoint, credential and signing setup |
+| [github-broker](https://github.com/julie-ng/ai-native-sdlc-github-broker) | Just-in-time GitHub tokens, scoped to an agent's role and one repository |
+| [infrastructure](https://github.com/julie-ng/ai-native-sdlc-infrastructure) | Terraform for Azure: AKS, workload identities, Key Vault, storage, PostgreSQL |
+| [platform-services](https://github.com/julie-ng/ai-native-sdlc-platform-services) | Runs, HMAC step tokens and the artifact API |
+| [workflows](https://github.com/julie-ng/ai-native-sdlc-workflows) | Argo workflow templates and agent recipes |
+
 > [!IMPORTANT]
 > This is _not_ a reference architecture. It's a portfolio piece and proof of concept I'm building out in public to share my learnings – and to put my money where my mouth is. Although a POC, I'm still applying 10+ years of cloud engineering experience to set up enough guardrails and enforced security boundaries that I will let agents work unsupervised for me.
 >
@@ -25,10 +37,10 @@ This repo is where I design the platform and scope work. The components are buil
 - **Design** — [ADR-001 – 016](./architecture/decisions/) accepted
 - **Dev container agent** — working: own GitHub account, GPG-signed commits, unattended runs after a confirmed read-back ([ADR-001](./architecture/decisions/001-dev-container-agent-identity.md))
 - **goose in a container** — working with `docker run`: issue in, PR out
-- **Cloud platform on AKS** — [cluster deployed](./infrastructure/), Argo Workflows installed, agent secrets from Key Vault through workload identity
-- **Platform services** — [deployed in the cluster](./platform-services/): create a run, HMAC step tokens, artifact API with SAS URLs, Entra authentication to PostgreSQL
-- **Workflow** — [`foreman → planner → coder`](./workflows/) runs end to end with `argo submit` (or `make submit`): issue in, signed PR out
-- **GitHub token broker** — [in use by the workflow](./github-broker/): each agent pod gets a just-in-time GitHub token scoped to its role and one repository. PRs are opened by the GitHub App; commits stay signed by the agent. No shared GitHub token is in use.
+- **Cloud platform on AKS** — [cluster deployed](https://github.com/julie-ng/ai-native-sdlc-infrastructure), Argo Workflows installed, agent secrets from Key Vault through workload identity
+- **Platform services** — [deployed in the cluster](https://github.com/julie-ng/ai-native-sdlc-platform-services): create a run, HMAC step tokens, artifact API with SAS URLs, Entra authentication to PostgreSQL
+- **Workflow** — [`foreman → planner → coder`](https://github.com/julie-ng/ai-native-sdlc-workflows) runs end to end with `argo submit` (or `make submit`): issue in, signed PR out
+- **GitHub token broker** — [in use by the workflow](https://github.com/julie-ng/ai-native-sdlc-github-broker): each agent pod gets a just-in-time GitHub token scoped to its role and one repository. PRs are opened by the GitHub App; commits stay signed by the agent. No shared GitHub token is in use.
 
 ### Milestones
 
@@ -49,7 +61,7 @@ This repo is where I design the platform and scope work. The components are buil
 
 **Validated**
 
-- **Infrastructure access re-checked, nothing left unverified.** Every workload identity holds only the secret-scoped grants it needs, nothing inherited. A pod can't mount another identity's secrets, agent pods still can't reach the cloud metadata endpoint, and logs stay within budget. See the [verification log](./infrastructure/docs/verification-log.md).
+- **Infrastructure access re-checked, nothing left unverified.** Every workload identity holds only the secret-scoped grants it needs, nothing inherited. A pod can't mount another identity's secrets, agent pods still can't reach the cloud metadata endpoint, and logs stay within budget. See the [verification log](https://github.com/julie-ng/ai-native-sdlc-infrastructure/blob/main/docs/verification-log.md).
 
 **Learned**
 
@@ -104,7 +116,7 @@ This repo is where I design the platform and scope work. The components are buil
 
 **Added**
 
-- **Argo Workflows installed** on AKS with Helm. See [Infrastructure](./infrastructure/).
+- **Argo Workflows installed** on AKS with Helm. See [Infrastructure](https://github.com/julie-ng/ai-native-sdlc-infrastructure).
 - **Trusted `foreman` step:** its own identity and RBAC to create a run and hand each agent step a scoped token. Platform services consolidated into one identity.
 - **Key Vault secrets created** by script: platform-service tokens and the agent's GPG signing key.
 
@@ -118,7 +130,7 @@ This repo is where I design the platform and scope work. The components are buil
 
 **Added**
 
-- **Artifact API** in [Platform services](./platform-services/): register, upload and download artifacts through scoped SAS URLs, backed by PostgreSQL. Plus logging, a readiness endpoint and an API docs site.
+- **Artifact API** in [Platform services](https://github.com/julie-ng/ai-native-sdlc-platform-services): register, upload and download artifacts through scoped SAS URLs, backed by PostgreSQL. Plus logging, a readiness endpoint and an API docs site.
 
 **Changed**
 
@@ -138,7 +150,7 @@ This repo is where I design the platform and scope work. The components are buil
 
 **Added**
 
-- [GitHub token broker](./github-broker/) bootstrapped, and the [workflows](./workflows/) repo created.
+- [GitHub token broker](https://github.com/julie-ng/ai-native-sdlc-github-broker) bootstrapped, and the [workflows](https://github.com/julie-ng/ai-native-sdlc-workflows) repo created.
 
 **Validated**
 
@@ -148,12 +160,12 @@ This repo is where I design the platform and scope work. The components are buil
 
 **Added**
 
-- **Azure infrastructure deployed:** AKS cluster, networking, shared services and workload identities. See [Infrastructure](./infrastructure/).
-- **Agent base image built:** Goose on Debian, with Python and Node, running as a non-root user. AMD64 build and offline smoke checks passed. See [Agent images](./agent-images/).
+- **Azure infrastructure deployed:** AKS cluster, networking, shared services and workload identities. See [Infrastructure](https://github.com/julie-ng/ai-native-sdlc-infrastructure).
+- **Agent base image built:** Goose on Debian, with Python and Node, running as a non-root user. AMD64 build and offline smoke checks passed. See [Agent images](https://github.com/julie-ng/ai-native-sdlc-agent-images).
 
 **Decided**
 
-- Use GitHub CLI for GitHub operations and keep Goose a light wrapper around capable models, prioritizing API-token cost efficiency. See [Image ADRs](./agent-images/architecture/decisions/).
+- Use GitHub CLI for GitHub operations and keep Goose a light wrapper around capable models, prioritizing API-token cost efficiency. See [Image ADRs](https://github.com/julie-ng/ai-native-sdlc-agent-images/tree/main/architecture/decisions).
 
 ### 2026-10-20
 
