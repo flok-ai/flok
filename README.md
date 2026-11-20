@@ -25,8 +25,8 @@ This repo is where I design the platform and scope work. The components are buil
 - **goose in a container** — working with `docker run`: issue in, PR out
 - **Cloud platform on AKS** — [cluster deployed](./infrastructure/), Argo Workflows installed, agent secrets from Key Vault through workload identity
 - **Platform services** — [deployed in the cluster](./platform-services/): create a run, HMAC step tokens, artifact API with SAS URLs, Entra authentication to PostgreSQL
-- **Workflow** — [`foreman → planner → coder`](./workflows/) runs end to end with `argo submit`: issue in, signed PR out
-- **GitHub token broker** — [deployed and verified in the cluster](./github-broker/): agent pods get just-in-time GitHub tokens scoped to their role and one repository. Not yet used by the workflow, which still uses a temporary token.
+- **Workflow** — [`foreman → planner → coder`](./workflows/) runs end to end with `argo submit` (or `make submit`): issue in, signed PR out
+- **GitHub token broker** — [in use by the workflow](./github-broker/): each agent pod gets a just-in-time GitHub token scoped to its role and one repository. PRs are opened by the GitHub App; commits stay signed by the agent. No shared GitHub token is in use.
 
 ### Initial release — done
 
@@ -39,11 +39,25 @@ One issue end to end in the cluster: start a run with the Argo CLI, a planner wr
 - [x] Platform services — HMAC caller authentication, create the run, deploy to the cluster
 - [x] Workflow — `foreman → planner → coder`, started with `argo submit`
 
-**Next:** switch the workflow to the token broker and retire the temporary token, so every component runs with just-in-time credentials. Then better issue scoping and agent output quality, and saving agent session transcripts ([#30](https://github.com/julie-ng/ai-native-sdlc/issues/30)).
+**Next:** better issue scoping and agent output quality, and saving agent session transcripts ([#30](https://github.com/julie-ng/ai-native-sdlc/issues/30)).
 
 **Later:** reviewer step, webhook trigger, role images with skills baked in.
 
 ## What's New?
+
+### 2026-11-20
+
+**Milestone**
+
+- **Every component runs with just-in-time credentials.** Agent pods get their GitHub token from the broker at startup, scoped to their role and one repository and valid for an hour. The shared GitHub token is revoked and removed from the cluster and its Key Vault grants. The first run without it opened a PR as the GitHub App, with a **Verified** commit and green CI.
+
+**Validated**
+
+- **Infrastructure access re-checked, nothing left unverified.** Every workload identity holds only the secret-scoped grants it needs, nothing inherited. A pod can't mount another identity's secrets, agent pods still can't reach the cloud metadata endpoint, and logs stay within budget. See the [verification log](./infrastructure/docs/verification-log.md).
+
+**Learned**
+
+- **A bare registry name pulls from Docker Hub.** `aisdlc…cr` instead of `aisdlc…cr.azurecr.io` made the planner wait for an image that doesn't exist until its deadline. `make submit` now rejects it up front.
 
 ### 2026-11-18
 
