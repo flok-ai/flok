@@ -87,7 +87,7 @@ The first build is an MVP, not the target design. It proves one thing: pods get 
 | Roles | planner, coder, reviewer, open-PR step | `planner` and `coder` only. The coder opens the PR; there is no reviewer or open-PR step. |
 | Planner permissions | `issues: write`, `contents: read` | `contents: read`, `issues: read`. It only reads the issue and clones. |
 | Coder permissions | `contents: write` | `contents: write`, `pull_requests: write`, `issues: read`. It opens the PR itself. |
-| Assignment metadata | run, step and attempt identifiers plus the repository | one pod annotation, `ai-native-sdlc/repository` (`owner/repo`), set by the workflow template. Run, step and attempt labels wait for the workflow service. |
+| Assignment metadata | run, step and attempt identifiers plus the repository | one pod annotation, `flok-ai.com/repo` (`owner/repo`), set by the workflow template. Run, step and attempt labels wait for the workflow service. |
 | Repository allowlist | broker configuration | broker configuration, mapping `owner/repo` to its numeric repository ID and installation ID |
 | App private key | broker reads Key Vault with its workload identity | mounted as a file by the Secrets Store CSI driver (`token-broker-gh-app-private-key`), so the broker needs no Azure SDK |
 | Trigger | workflow service submits the workflow | the human developer runs `argo submit` |
@@ -102,6 +102,8 @@ The first build is an MVP, not the target design. It proves one thing: pods get 
 - Small surface: TokenReview, one pod lookup, one JWT sign, one GitHub API call. Estimate: a few hundred lines.
 - Broker's own Kubernetes RBAC: `tokenreviews: create`, `pods: get` in the `agents` namespace. Nothing else.
 - Label values can't contain `/` → put `owner/repo` in an **annotation**, or use the numeric repository ID as a label.
+- **The role is fixed for a pod's lifetime; the annotation isn't.** `serviceAccountName` can't change on a running pod, but anyone with `pods: patch` in `agents` can change the annotation, and the broker reads it at request time. Only the Argo controller should hold that right; agent ServiceAccounts get no Role and no automounted token. **Unverified** against the live cluster.
+- **Whoever submits a Workflow chooses the repo** (`workflow.parameters.repository`); the broker's allowlist is the limit. Once the workflow service submits Workflows, its trust question is which templates and parameters it may submit.
 - Shared namespace caveat: anyone allowed to create pods in `agents` could pick any role's ServiceAccount. Restrict pod creation there to the Argo controller via RBAC.
 - **JWT:** RS256, `iss` = App ID, `exp` ≤ 10 min. The minted token (`ghs_…`) is used as an HTTPS credential — `https://x-access-token:<token>@github.com/…` — and as `GH_TOKEN` for `gh`.
 - GitHub issues the App key in **PKCS#1**; some JWT libraries (Node's `jsonwebtoken`) want PKCS#8. Convert with `openssl pkcs8 -topk8 -nocrypt`. Verify a key matches GitHub's record by comparing `openssl rsa -pubout | sha256 | base64` against the fingerprint on the App's settings page.
@@ -117,6 +119,7 @@ The first build is an MVP, not the target design. It proves one thing: pods get 
 
 | Date | Decision | Notes |
 |---|---|---|
+| 2026-11-22 | Pod annotation renamed to `flok-ai.com/repo`; all flok Kubernetes keys use the `flok-ai.com/` prefix | Was `ai-native-sdlc/repository`. The prefix only needs to be a domain flok controls; it never resolves. Applies to future run, step and attempt labels and any custom resource API group. Hard switch: broker and workflow templates change together, no dual-key support. [flok#36](https://github.com/flok-ai/flok/issues/36) |
 | 2026-11-13 | First build is an MVP: two roles, one repository annotation, App key as a mounted file | [Initial release](#initial-release). The coder opens the PR, so it gets `pull_requests: write`; no run, step or attempt labels until the workflow service needs them. |
 | 2026-10-24 | Clarify short-lived issuance and shared-namespace Secret access | Fresh per-step issuance avoids standing shared access tokens; issued GitHub tokens remain reusable until expiry/revocation. Secret mounts do not force per-role namespaces. |
 | 2026-10-21 | Cloud: agent user commits and signs, broker's App token pushes | [ADR-012](../decisions/012-agent-identity-commits-vs-github-tokens.md) |
