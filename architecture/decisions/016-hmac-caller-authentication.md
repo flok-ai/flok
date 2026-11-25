@@ -1,6 +1,6 @@
 # ADR-016: Caller authentication for platform services — HMAC tokens for the first release
 
-- **Status:** Accepted — built and deployed (2026-11-10)
+- **Status:** Superseded by [ADR-017](./017-serviceaccount-caller-authentication.md) (2026-11-25). Built and deployed 2026-11-10; stays in use until ADR-017 is built.
 - **Date:** 2026-11-05
 - **Context:** How agent steps authenticate to the platform services (artifact service, workflow service). Confirms the mechanism in [ADR-003](./003-platform-services-vs-agent-pods.md) as a pragmatic first-release choice and defers the Kubernetes ServiceAccount alternative.
 
