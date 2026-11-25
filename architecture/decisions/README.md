@@ -33,4 +33,5 @@ Sections:
 | [013](./013-skills-distribution.md) | Skills distribution — baked for the POC, target left to the platform | Accepted |
 | [014](./014-commit-signing.md) | Commit signing — native Git with GPG | Accepted — built, one key for now |
 | [015](./015-sas-signing-and-local-identity.md) | SAS signing — user delegation keys, service principal for local development | Accepted |
-| [016](./016-hmac-caller-authentication.md) | Caller authentication — HMAC tokens for the first release, ServiceAccount deferred | Accepted — built and deployed |
+| [016](./016-hmac-caller-authentication.md) | Caller authentication — HMAC tokens for the first release, ServiceAccount deferred | Superseded by 017 — built, in use until 017 is built |
+| [017](./017-serviceaccount-caller-authentication.md) | Caller authentication — ServiceAccount tokens, one step record per pod | Accepted — not built |
